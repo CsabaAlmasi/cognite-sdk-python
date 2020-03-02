@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build
       run: |
+        export PATH="/github/home/.pyenv/bin:$PATH" 
         apt-get update && \
         apt-get install libssl1.1 -y && \
         curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
@@ -28,6 +29,5 @@ jobs:
         PYTHON_3_6: /root/.pyenv/versions/3.6.6/bin/python
         PYTHON_3_7: /root/.pyenv/versions/3.7.6/bin/python
         PYTHON_3_8: /root/.pyenv/versions/3.8.0/bin/python
-        PATH: /github/home/.pyenv/bin:$PATH
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
