@@ -35,3 +35,8 @@ jobs:
     - name: Install Pipenv
       run: |
         pip3 install pipenv
+    - name: Install core dependencies
+      run: |
+        pipenv run pip install -r core-requirements.txt
+
+
