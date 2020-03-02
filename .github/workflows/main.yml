@@ -8,28 +8,20 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #     python-version: [3.5.0, 3.6.10, 3.7.6, 3.8.1]
-
-    # steps:
-    # - uses: actions/checkout@v2
-    # - name: Set up Python ${{ matrix.python-version }}
-    #   uses: actions/setup-python@v1
-    #   with:
-    #     python-version: ${{ matrix.python-version }}
-    # - name: Display Python version
-    #   run: python -c "import sys; print(sys.version)"
-
+    container: python:3.7.2
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.5.0' # Semantic version range syntax or exact version of a Python version
-        architecture: 'x64' # Optional - x64 or x86, defaults to x64
-    # You can test your matrix by printing the current Python version
+    - uses: actions/checkout@v1
+    - name: Build
+      run: |
+        apt-get update && \
+        apt-get purge libssl-dev -y && \
+        apt-get install libssl1.0-dev -y && \
+        curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
+        pyenv install 3.5.0 && \
+        pyenv install 3.6.6 && \
+        pyenv install 3.7.4 && \
+        pyenv install 3.8.0
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
+  
