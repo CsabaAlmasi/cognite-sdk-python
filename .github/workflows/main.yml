@@ -66,7 +66,7 @@ jobs:
         CI: '1'
         BRANCH_NAME: ${GITHUB_REF##*/}
       run: |
-        pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
+        python3 -m pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
       shell: bash
 
         
