@@ -30,8 +30,6 @@ jobs:
   build_and_test_python:
     needs: build_deref_spec
     runs-on: ubuntu-latest
-    container:
-      image: python:3.7.6-stretch
     steps:
     - name: Download the deref-spec for API testing 
       uses: actions/download-artifact@v1
