@@ -14,8 +14,8 @@ jobs:
     - name: Install dependencies for swagger-cli
       shell: bash
       run: |
-        apt-get update && apt-get install -y curl && /
-        npm install -g swagger-cli@3.0.1 && /
+        apt-get update && apt-get install -y curl && \
+        npm install -g swagger-cli@3.0.1 && \
         curl 'https://storage.googleapis.com/cognitedata-api-docs/dist/v1.json' --output spec.json --compressed
     - name: Generate deref spec
       shell: bash
