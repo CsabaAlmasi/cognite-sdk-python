@@ -67,6 +67,7 @@ jobs:
         BRANCH_NAME: ${GITHUB_REF##*/}
       run: |
         pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
+      shell: bash
 
         
 
