@@ -12,7 +12,7 @@ jobs:
     container:
       image: python:3.7.6-stretch
       env:
-        myString: ${{ 'Mona the Octocat' }}
+        myString: Mona the Octocat
     steps:
     - uses: actions/checkout@v2
     - name: Build
