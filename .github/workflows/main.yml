@@ -30,6 +30,17 @@ jobs:
   build_and_test_python:
     needs: build_deref_spec
     runs-on: ubuntu-latest
+    env:
+        COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
+        CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
+        COGNITE_BASE_URL: https://greenfield.cognitedata.com
+        COGNITE_CLIENT_NAME: python-sdk-integration-tests
+        COGNITE_PROJECT: python-sdk-test
+        CI: '1'
+        BRANCH_NAME: ${GITHUB_REF##*/}
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8]
     steps:
     - name: Download the deref-spec for API testing 
       uses: actions/download-artifact@v1
@@ -37,7 +48,17 @@ jobs:
         name: deref-spec
     - name: checkout src code from repo
       uses: actions/checkout@v2
-    - name: Install core dependencies and test Core
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Install Pipenv
+      run: |
+        pip3 install pipenv
+    - name: Install core dependencies
+      run: |
+        pipenv run pip install -r core-requirements.txt
+    - name: Test Core
       env:
         COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
         CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
@@ -46,7 +67,15 @@ jobs:
         COGNITE_PROJECT: python-sdk-test
         CI: '1'
         BRANCH_NAME: ${GITHUB_REF##*/}
-      uses: ./.github/actions/check-core-action
+      run: |
+        pipenv run pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
+    - name: Upload pytest test results
+        uses: actions/upload-artifact@master
+        with:
+          name: pytest-results-${{ matrix.python-version }}
+          path: junit/test-results-${{ matrix.python-version }}.xml
+        # Use always() to always run this step to publish test results when there are test failures
+        if: always()
         
 
 

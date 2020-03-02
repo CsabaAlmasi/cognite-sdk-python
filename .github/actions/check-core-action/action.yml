@@ -1,5 +1,0 @@
-name: "Check SDK core "
-description: 'Checks the core of the sdk with the multi python image'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
