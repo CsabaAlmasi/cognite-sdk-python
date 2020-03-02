@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     container: node:10-slim
     steps:
-      - shell: bash
+      - name: Install node dependencies and generate spec
+        shell: bash
         run: |
           apt-get update && apt-get install -y curl && /
           npm install -g swagger-cli@3.0.1 && /
