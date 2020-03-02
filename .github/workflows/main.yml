@@ -53,8 +53,7 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Install Pipenv
-      run: |
-        pip3 install pipenv
+      uses: dschep/install-pipenv-action@v1
     - name: Install core dependencies
       run: |
         pipenv run pip install -r core-requirements.txt
