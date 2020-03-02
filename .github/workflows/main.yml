@@ -11,14 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: python:3.7.6-alpine 
-      env: 
-        PYTHON_3_5: /root/.pyenv/versions/3.5.0/bin/python
-        PYTHON_3_6: /root/.pyenv/versions/3.6.5/bin/python
-        PYTHON_3_7: /root/.pyenv/versions/3.7.4/bin/python
-        PYTHON_3_8: /root/.pyenv/versions/3.8.0/bin/python
-        HOME: /root
-        PYENV_ROOT: $HOME/.pyenv
-        PATH: $PYENV_ROOT/bin:$PATH 
     steps:
     - uses: actions/checkout@v1
     - name: Build
@@ -31,6 +23,13 @@ jobs:
         pyenv install 3.6.6 && \
         pyenv install 3.7.4 && \
         pyenv install 3.8.0
+      env: 
+        PYTHON_3_5: /root/.pyenv/versions/3.5.0/bin/python
+        PYTHON_3_6: /root/.pyenv/versions/3.6.5/bin/python
+        PYTHON_3_7: /root/.pyenv/versions/3.7.4/bin/python
+        PYTHON_3_8: /root/.pyenv/versions/3.8.0/bin/python
+        HOME: /root
+        PYENV_ROOT: $HOME/.pyenv
+        PATH: $PYENV_ROOT/bin:$PATH
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
-  
