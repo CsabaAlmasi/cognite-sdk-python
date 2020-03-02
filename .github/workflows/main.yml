@@ -28,5 +28,6 @@ jobs:
         PYTHON_3_8: /root/.pyenv/versions/3.8.0/bin/python
         HOME: /root
         PYENV_ROOT: $HOME/.pyenv
+        PATH: $HOME/.pyenv/bin:$PATH
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
