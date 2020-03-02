@@ -32,12 +32,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: python:3.7.6-stretch
-      env:
-        COGNITE_BASE_URL: https://greenfield.cognitedata.com
-        COGNITE_CLIENT_NAME: python-sdk-integration-tests
-        COGNITE_PROJECT: python-sdk-test
-        CI: '1'
-        BRANCH_NAME: ${GITHUB_REF##*/}
     steps:
     - name: Download math result for job 1
       uses: actions/download-artifact@v1
@@ -72,6 +66,11 @@ jobs:
       env:
         COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
         CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
+        COGNITE_BASE_URL: https://greenfield.cognitedata.com
+        COGNITE_CLIENT_NAME: python-sdk-integration-tests
+        COGNITE_PROJECT: python-sdk-test
+        CI: '1'
+        BRANCH_NAME: ${GITHUB_REF##*/}
       run: |
         pipenv run pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
 
