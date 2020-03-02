@@ -20,5 +20,6 @@ jobs:
         pyenv install 3.6.6 && \
         pyenv install 3.7.4 && \
         pyenv install 3.8.0
+      shell: bash
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
