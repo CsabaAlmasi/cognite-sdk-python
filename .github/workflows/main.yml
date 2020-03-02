@@ -30,39 +30,14 @@ jobs:
   build_and_test_python:
     needs: build_deref_spec
     runs-on: ubuntu-latest
-    container:
-      image: python:3.7.6-stretch
     steps:
-    - name: Download math result for job 1
+    - name: Download the deref-spec for API testing 
       uses: actions/download-artifact@v1
       with:
         name: deref-spec
-    - name: Build the environment 
-      run: |
-        export PATH="/github/home/.pyenv/bin:$PATH" 
-        apt-get update && \
-        apt-get purge libssl-dev -y && \
-        apt-get install libssl1.0-dev -y && \
-        curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
-        pyenv install 3.5.0 && \
-        pyenv install 3.6.6 && \
-        pyenv install 3.7.6 && \
-        pyenv install 3.8.0
-      shell: bash
-      env: 
-        PYTHON_3_5: /root/.pyenv/versions/3.5.0/bin/python
-        PYTHON_3_6: /root/.pyenv/versions/3.6.6/bin/python
-        PYTHON_3_7: /root/.pyenv/versions/3.7.6/bin/python
-        PYTHON_3_8: /root/.pyenv/versions/3.8.0/bin/python
-    - name: Install Pipenv
-      run: |
-        pip3 install pipenv
-    - name: checkout src code
+    - name: checkout src code from repo
       uses: actions/checkout@v2
-    - name: Install core dependencies
-      run: |
-        pipenv run pip install -r core-requirements.txt
-    - name: Test Core
+    - name: Install core dependencies and test Core
       env:
         COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
         CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
@@ -71,7 +46,12 @@ jobs:
         COGNITE_PROJECT: python-sdk-test
         CI: '1'
         BRANCH_NAME: ${GITHUB_REF##*/}
+      uses: ./.github/actions/check-core-action
+      shell: bash
       run: |
+        pip3 install pipenv && \
+        pipenv run pip install -r core-requirements.txt && \
         pipenv run pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
+        
 
 
