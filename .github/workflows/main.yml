@@ -13,13 +13,9 @@ jobs:
       image: python:3.7.6-buster
     steps:
     - uses: actions/checkout@v2
-    - name: export path
-      run: |
-        export PATH="/github/home/.pyenv/bin:$PATH"  
-      shell: bash
-    - uses: actions/checkout@v2
     - name: Build
       run: |
+        export PATH="/github/home/.pyenv/bin:$PATH" && \  
         apt-get update && \
         apt-get install libssl1.0 -y && \
         curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
