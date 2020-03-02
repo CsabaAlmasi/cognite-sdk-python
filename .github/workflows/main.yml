@@ -11,19 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     container: node:10-slim
     steps:
-      - name: Install node dependencies and generate spec
-        shell: bash
-        run: |
-          apt-get update && apt-get install -y curl && /
-          npm install -g swagger-cli@3.0.1 && /
-          curl https://storage.googleapis.com/cognitedata-api-docs/dist/v1.json --output spec.json --compressed && /
-          swagger-cli bundle -r spec.json -o deref-spec.json
-      - name: Upload deref as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: deref-spec
-          path: deref-spec.json
-      - continue-on-error: false
+    - shell: bash
+      run: |
+        apt-get update && apt-get install -y curl && /
+        npm install -g swagger-cli@3.0.1 && /
+        curl https://storage.googleapis.com/cognitedata-api-docs/dist/v1.json --output spec.json --compressed && /
+        swagger-cli bundle -r spec.json -o deref-spec.json
+    - name: Upload deref as artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: deref-spec
+        path: deref-spec.json
       
   build_and_test_python:
     needs: build_deref_spec
@@ -37,7 +35,6 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: deref-spec
-        path: deref-spec.json
     - name: Build the environment 
       run: |
         export PATH="/github/home/.pyenv/bin:$PATH" 
