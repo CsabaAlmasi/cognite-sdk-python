@@ -19,3 +19,5 @@ RUN apt-get update && \
     pyenv install 3.6.6 && \
     pyenv install 3.7.6 && \
     pyenv install 3.8.0
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

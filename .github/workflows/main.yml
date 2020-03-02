@@ -30,6 +30,8 @@ jobs:
   build_and_test_python:
     needs: build_deref_spec
     runs-on: ubuntu-latest
+    container:
+      image: python:3.7.6-stretch
     steps:
     - name: Download the deref-spec for API testing 
       uses: actions/download-artifact@v1
@@ -47,11 +49,6 @@ jobs:
         CI: '1'
         BRANCH_NAME: ${GITHUB_REF##*/}
       uses: ./.github/actions/check-core-action
-      shell: bash
-      run: |
-        pip3 install pipenv && \
-        pipenv run pip install -r core-requirements.txt && \
-        pipenv run pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
         
 
 
