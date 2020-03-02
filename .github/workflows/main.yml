@@ -34,8 +34,9 @@ jobs:
     steps:
     - name: Download math result for job 1
       uses: actions/download-artifact@v1
-        with:
-          name: deref-spec
+      with:
+        name: deref-spec
+        path: deref-spec.json
     - name: Build the environment 
       run: |
         export PATH="/github/home/.pyenv/bin:$PATH" 
