@@ -70,12 +70,12 @@ jobs:
       run: |
         pipenv run pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
     - name: Upload pytest test results
-        uses: actions/upload-artifact@master
-        with:
-          name: pytest-results-${{ matrix.python-version }}
-          path: junit/test-results-${{ matrix.python-version }}.xml
+      uses: actions/upload-artifact@master
+      with:
+        name: pytest-results-${{ matrix.python-version }}
+        path: junit/test-results-${{ matrix.python-version }}.xml
         # Use always() to always run this step to publish test results when there are test failures
-        if: always()
+      if: always()
         
 
 
