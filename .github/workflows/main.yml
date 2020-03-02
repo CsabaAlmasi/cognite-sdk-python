@@ -66,6 +66,7 @@ jobs:
         CI: '1'
         BRANCH_NAME: ${GITHUB_REF##*/}
       run: |
+        pip install pytest
         pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
 
         
