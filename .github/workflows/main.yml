@@ -11,11 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     container: node:10-slim
     steps:
-    - shell: bash
+    - name: Install dependencies for swagger-cli
+      shell: bash
       run: |
         apt-get update && apt-get install -y curl && /
         npm install -g swagger-cli@3.0.1 && /
-        curl https://storage.googleapis.com/cognitedata-api-docs/dist/v1.json --output spec.json --compressed && /
+        curl 'https://storage.googleapis.com/cognitedata-api-docs/dist/v1.json' --output spec.json --compressed
+    - name: Generate deref spec
+      shell: bash
+      run: |
         swagger-cli bundle -r spec.json -o deref-spec.json
     - name: Upload deref as artifact
       uses: actions/upload-artifact@v1
