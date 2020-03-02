@@ -7,15 +7,36 @@ on:
     branches: [ master ]
 
 jobs:
-  build_environment:
+  build_deref_spec: 
+    runs-on: ubuntu-latest
+    container: node:10-slim
+    steps:
+      - shell: bash
+        run: |
+          apt-get update && apt-get install -y curl && /
+          npm install -g swagger-cli@3.0.1 && /
+          curl https://storage.googleapis.com/cognitedata-api-docs/dist/v1.json --output spec.json --compressed && /
+          swagger-cli bundle -r spec.json -o deref-spec.json
+      - name: Upload deref as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: deref-spec
+          path: deref-spec.json
+      - continue-on-error: false
+      
+  build_and_test_python:
+    needs: build_deref_spec
     runs-on: ubuntu-latest
     container:
       image: python:3.7.6-stretch
       env:
         ENV: env
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v1
+        with:
+          name: deref-spec
+    - name: Build the environment 
       run: |
         export PATH="/github/home/.pyenv/bin:$PATH" 
         apt-get update && \
@@ -35,6 +56,8 @@ jobs:
     - name: Install Pipenv
       run: |
         pip3 install pipenv
+    - name: checkout src code
+      uses: actions/checkout@v2
     - name: Install core dependencies
       run: |
         pipenv run pip install -r core-requirements.txt
