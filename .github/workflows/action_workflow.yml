@@ -21,4 +21,4 @@ jobs:
         COGNITE_PROJECT: python-sdk-test
         CI: '1'
         BRANCH_NAME: ${GITHUB_REF##*/}
-      uses: ./actions/test_python_3_5_0
+      uses: ./.github/actions/test_python_3_5_0
