@@ -68,7 +68,7 @@ jobs:
       run: |
         pip3 install wheel 
         pip3 install --upgrade setuptools 
-        pip3 install pipenv
+        sudo pip3 install pipenv
     - name: Install core dependencies
       run: |
         python3 -m pip install --upgrade pip
