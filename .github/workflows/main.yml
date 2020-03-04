@@ -64,13 +64,15 @@ jobs:
         python-version: ${{ matrix.python }}
     - name: Display Python version
       run: python3 -c "import sys; print(sys.version)"
-    - name: Install pipenv
+    - name: upgrade setuptools
       run: |
-        pip3 install --upgrade setuptools && \
+        pip3 install --upgrade setuptools
+    - name: install pipenv
+      run: |
         pip3 install pipenv
     - name: Install core dependencies
       run: |
-        python3 -m pip install --upgrade pip && \
+        python3 -m pip install --upgrade pip
         pip3 install -r core-requirements.txt
     - name: Test Core
       run: |
