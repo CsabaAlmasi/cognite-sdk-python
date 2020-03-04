@@ -62,6 +62,9 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python }}
+    - name: Install pipenv
+      run: |
+        pip3 install pipenv
     - name: Install core dependencies
       run: |
         python3 -m pip install --upgrade pip
@@ -70,6 +73,12 @@ jobs:
       run: |
         python3 -m pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
       shell: bash
+    - name: Install all dependencies
+      run: |
+        pipenv sync --dev
+    - name: Style check
+      run: |
+        pipenv run black -l 120 --check .
 
         
 
