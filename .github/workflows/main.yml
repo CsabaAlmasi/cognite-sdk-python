@@ -1,8 +1,8 @@
 name: cognite-python-sdk CI no 3.5
 
 env:
-  # COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
-  # CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
+  COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
+  CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
   COGNITE_BASE_URL: https://greenfield.cognitedata.com
   COGNITE_CLIENT_NAME: python-sdk-integration-tests
   COGNITE_PROJECT: python-sdk-test
@@ -37,6 +37,7 @@ jobs:
         path: deref-spec.json
 
   test_python_on_3_5_0:
+    needs: build_deref_spec 
     runs-on: ubuntu-latest
     steps:
     - name: checkout src code from repo
