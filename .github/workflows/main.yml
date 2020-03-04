@@ -51,6 +51,9 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8, 3.9]
+        exclude:
+          - os: ubuntu-latest
+            python-version: 2.7
     steps:
     - name: Download the deref-spec for API testing 
       uses: actions/download-artifact@v1
@@ -64,12 +67,8 @@ jobs:
         python-version: ${{ matrix.python }}
     - name: Display Python version
       run: python3 -c "import sys; print(sys.version)"
-    - name: upgrade setuptools
-      run: |
-        pip3 install --upgrade setuptools
-    - name: install pipenv
-      run: |
-        pip3 install pipenv
+    - name: Install pipenv
+      uses: dschep/install-pipenv-action@v1
     - name: Install core dependencies
       run: |
         python3 -m pip install --upgrade pip
