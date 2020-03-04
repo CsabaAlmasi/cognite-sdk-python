@@ -58,13 +58,13 @@ jobs:
         name: deref-spec
     - name: checkout src code from repo
       uses: actions/checkout@v2
+    - name: Install pipenv
+      run: |
+        pip3 install pipenv
     - name: Setup Python
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python }}
-    - name: Install pipenv
-      run: |
-        pip3 install pipenv
     - name: Install core dependencies
       run: |
         python3 -m pip install --upgrade pip
