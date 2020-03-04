@@ -63,7 +63,7 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Display Python version
-      run: python -c "import sys; print(sys.version)"
+      run: python3 -c "import sys; print(sys.version)"
     - name: Install pipenv
       uses: dschep/install-pipenv-action@v1
     - name: Install core dependencies
