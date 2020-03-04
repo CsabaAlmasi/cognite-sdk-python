@@ -1,5 +1,14 @@
 name: cognite-python-sdk CI no 3.5
-# RERUN
+
+env:
+  COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
+  CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
+  COGNITE_BASE_URL: https://greenfield.cognitedata.com
+  COGNITE_CLIENT_NAME: python-sdk-integration-tests
+  COGNITE_PROJECT: python-sdk-test
+  CI: '1'
+  BRANCH_NAME: ${GITHUB_REF##*/}
+        
 on:
   push:
     branches: [ master ]
@@ -26,8 +35,16 @@ jobs:
       with:
         name: deref-spec
         path: deref-spec.json
-      
-  build_and_test_python:
+
+  test_python_on_3_5_0:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout src code from repo
+      uses: actions/checkout@v2
+    - name: Test Core
+      uses: ./.github/actions/test_python_3_5_0     
+  
+  test_python_general_minor:
     needs: build_deref_spec
     runs-on: ubuntu-latest
     strategy:
@@ -49,14 +66,6 @@ jobs:
         python3 -m pip install --upgrade pip
         pip3 install -r core-requirements.txt
     - name: Test Core
-      env:
-        COGNITE_API_KEY: ${{ secrets.integration_test_api_key }}
-        CODECOV_TOKEN: ${{ secrets.cognite_sdk_python }}
-        COGNITE_BASE_URL: https://greenfield.cognitedata.com
-        COGNITE_CLIENT_NAME: python-sdk-integration-tests
-        COGNITE_PROJECT: python-sdk-test
-        CI: '1'
-        BRANCH_NAME: ${GITHUB_REF##*/}
       run: |
         python3 -m pytest tests/tests_unit -m 'not dsl' --test-deps-only-core
       shell: bash

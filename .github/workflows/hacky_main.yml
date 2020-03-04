@@ -2,9 +2,9 @@ name: HACKY CI
 # RERUN
 on:
   push:
-    branches: [ master ]
+    branches: [ test ]
   pull_request:
-    branches: [ master ]
+    branches: [ test ]
 
 jobs:
   build_deref_spec: 
