@@ -1,0 +1,5 @@
+name: 'Test on 3.5.0 custom image'
+description: 'test with pinned custom minor version'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
